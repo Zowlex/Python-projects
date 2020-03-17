@@ -39,8 +39,7 @@ class Grid(list):
         """
         for row in range(self.w):
             for col in range(self.h):
-                if row == random.randint(1,self.w) or col == random.randint(1,self.h):
-                    self[row][col] = 1
+                    self[row][col] = random.randint(0,1)
 
     def alive_neghibors(self,x,y):
         """
@@ -51,6 +50,8 @@ class Grid(list):
             for col in range(y-1,y+2):
                 if (row==x) and (col==x):
                     continue
+                row = (x+row+self.w)%self.w
+                col = (y+col+self.h)%self.h
                 if self[row][col] == 1:
                     res+=1
         return res

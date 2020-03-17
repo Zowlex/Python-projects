@@ -2,6 +2,7 @@ import pygame
 import random 
 from grid import Grid
 from pygame.locals import *
+import time
 
 # Define some colors
 BLACK = (0, 0, 0)
@@ -18,7 +19,7 @@ MARGIN = 2
  
 def create_window(w, h):
     # Set the HEIGHT and WIDTH of the screen
-    screen = pygame.display.set_mode([w,h], HWSURFACE|DOUBLEBUF|RESIZABLE)
+    screen = pygame.display.set_mode([w,h])
     # Set title of screen
     pygame.display.set_caption("Array Backed Grid")
     return screen
@@ -38,14 +39,15 @@ done = False
 clock = pygame.time.Clock()
 
 #calculate row_num, col_num from current resolution
-row_num = (w//SQUARE_WIDTH+MARGIN)
-col_num = (h//SQUARE_HEIGHT+MARGIN)
+row_num = w//SQUARE_WIDTH
+print(row_num)
+col_num = h//SQUARE_HEIGHT
 #create grid
 grid = Grid(row_num, col_num)
 grid.randomize()
 
 #def initialize grid
-def draw_grid(row_num, col_num):
+def draw_grid(row_num, col_num, g):
                 # Draw the grid
                 for row in range(row_num):
                     for column in range(col_num):
@@ -56,18 +58,18 @@ def draw_grid(row_num, col_num):
                                             (MARGIN + SQUARE_HEIGHT) * column + MARGIN,
                                             SQUARE_WIDTH,
                                             SQUARE_HEIGHT])
-                for row in range(row_num):
-                    for column in range(col_num):
-                        if grid[row][column] == 1:
+                        if g[row][column] == 1:
                             pygame.draw.rect(screen,
                                     GREEN,
                                     [(MARGIN + SQUARE_WIDTH) * row + MARGIN,
                                     (MARGIN + SQUARE_HEIGHT) * column + MARGIN,
                                     SQUARE_WIDTH,
                                     SQUARE_HEIGHT])
+                    pygame.display.flip()
+                        
                     
 #draw initial grid
-draw_grid(row_num, col_num)                        
+draw_grid(row_num, col_num, grid)                        
 
 # -------- Main Program Loop -----------
 while not done:
@@ -83,29 +85,39 @@ while not done:
             if event.key == K_SPACE:
                 print('space key pressed')
                 x = 0
-                test_grid = tuple(grid)
-                print(type(test_grid))
-                test_grid = set(test_grid)
-                print(type(test_grid))
-                
-                #while True:
-                for row in range(1,row_num-1):
-                    for col in range(1,col_num-1):
-                        if ((grid.alive_neghibors(row,col)<2) or (grid.alive_neghibors(row,col)>3)) and (grid[row][col] == 1):
-                            grid[row][col] = 0
-                        if (grid.alive_neghibors(row,col) == 3) and (grid[row][col] == 0):
-                            grid[row][col] == 1
-                print(f'Num of elements: {(row_num-1)*(col_num-1)} \n ',set(grid)&set(test_grid))
-                draw_grid(row_num, col_num)
-                pygame.display.update()
-                x+=1
-                # Limit to x frames per second
-                clock.tick(x)
-                print('pass:',x)
+                while True:
+                    next_grid = Grid(row_num, col_num)
+                    for row in range(row_num):
+                        for col in range(col_num):
+
+                            state = grid[row][col]#current grid state 0 or 1
+                            
+                             
+                            # #ignore edges for the moment
+                            # if row == 0 or row == row_num-1 or col == 0 or col == col_num-1:
+                            #     next_grid[row][col] = state
+                            #     continue
+                            
+                            neighbors = grid.alive_neghibors(row,col)#current grid alive neighbors
+
+                            
+                            if state == 1 and (neighbors<2 or neighbors>3):
+                                next_grid[row][col] = 0
+                            elif state == 0 and neighbors == 3: 
+                                next_grid[row][col] = 1
+                            else:
+                                next_grid[row][col] = state
+                                
+                    draw_grid(row_num, col_num, next_grid)
+                    grid = next_grid
+                    x+=1
+                    # Limit to x frames per second
+                    clock.tick(10)
+                    print('generation:',x)
     
 
     # Go ahead and update the screen with what we've drawn.
-    #pygame.display.flip()
+    pygame.display.update()
 
 # Be IDLE friendly. If you forget this line, the program will 'hang'
 # on exit.
