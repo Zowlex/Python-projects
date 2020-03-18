@@ -11,7 +11,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
 # This sets the WIDTH and HEIGHT of each grid location
-SQUARE = 100
+SQUARE = 15
 
 # This sets the margin between each cell
 MARGIN = 2
@@ -43,11 +43,13 @@ col_num = h//SQUARE
 #create grid
 grid = Grid(row_num, col_num)
 print(grid.shape())
-#grid.randomize()
+grid.randomize()
+"""
+#Try the blinker oscilator
 grid[1][2] = 1
 grid[2][2] = 1
 grid[3][2] = 1
-
+"""
 #def initialize grid
 def draw_grid(row_num, col_num, g):
                 # Draw the grid
