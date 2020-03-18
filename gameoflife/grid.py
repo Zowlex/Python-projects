@@ -24,7 +24,11 @@ class Grid(list):
                 ch=ch[:-1]+']'
                 print(ch,'\n')
 
-
+    def sum(self):
+        res = 0
+        for row in range(self.w):
+            res+= sum(self[row])
+        return res
 
 
     def shape(self):
@@ -41,19 +45,23 @@ class Grid(list):
             for col in range(self.h):
                     self[row][col] = random.randint(0,1)
 
-    def alive_neghibors(self,x,y):
+    def alive_neighbors(self,x,y):
         """
         returns the number of alive neighbors (=1) for a certain x,y position
         """
         res = 0
         for row in range(x-1,x+2):
             for col in range(y-1,y+2):
-                if (row==x) and (col==x):
+                if (row==x) and (col==y):
                     continue
-                row = (x+row+self.w)%self.w
-                col = (y+col+self.h)%self.h
-                if self[row][col] == 1:
-                    res+=1
+                try:
+                    if self[row][col] == 1:
+                        res+=1
+                        pass
+                except IndexError:
+                    row = (x+row+self.w)%self.w
+                    col = (y+col+self.h)%self.h
+                        
         return res
 
     def to_tuple(self):

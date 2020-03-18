@@ -11,8 +11,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
 # This sets the WIDTH and HEIGHT of each grid location
-SQUARE_WIDTH = 20
-SQUARE_HEIGHT = 20
+SQUARE = 100
 
 # This sets the margin between each cell
 MARGIN = 2
@@ -21,7 +20,7 @@ def create_window(w, h):
     # Set the HEIGHT and WIDTH of the screen
     screen = pygame.display.set_mode([w,h])
     # Set title of screen
-    pygame.display.set_caption("Array Backed Grid")
+    pygame.display.set_caption("John Conway's game of life")
     return screen
 
 # Initialize pygame
@@ -39,12 +38,15 @@ done = False
 clock = pygame.time.Clock()
 
 #calculate row_num, col_num from current resolution
-row_num = w//SQUARE_WIDTH
-print(row_num)
-col_num = h//SQUARE_HEIGHT
+row_num = w//SQUARE
+col_num = h//SQUARE
 #create grid
 grid = Grid(row_num, col_num)
-grid.randomize()
+print(grid.shape())
+#grid.randomize()
+grid[1][2] = 1
+grid[2][2] = 1
+grid[3][2] = 1
 
 #def initialize grid
 def draw_grid(row_num, col_num, g):
@@ -54,18 +56,19 @@ def draw_grid(row_num, col_num, g):
                         color = WHITE
                         pygame.draw.rect(screen,
                                             color,
-                                            [(MARGIN + SQUARE_WIDTH) * row + MARGIN,
-                                            (MARGIN + SQUARE_HEIGHT) * column + MARGIN,
-                                            SQUARE_WIDTH,
-                                            SQUARE_HEIGHT])
+                                            [(MARGIN + SQUARE) * row + MARGIN,
+                                            (MARGIN + SQUARE) * column + MARGIN,
+                                            SQUARE,
+                                            SQUARE])
                         if g[row][column] == 1:
                             pygame.draw.rect(screen,
                                     GREEN,
-                                    [(MARGIN + SQUARE_WIDTH) * row + MARGIN,
-                                    (MARGIN + SQUARE_HEIGHT) * column + MARGIN,
-                                    SQUARE_WIDTH,
-                                    SQUARE_HEIGHT])
-                    pygame.display.flip()
+                                    [(MARGIN + SQUARE) * row + MARGIN,
+                                    (MARGIN + SQUARE) * column + MARGIN,
+                                    SQUARE,
+                                    SQUARE])
+                pygame.display.flip()
+                
                         
                     
 #draw initial grid
@@ -93,13 +96,13 @@ while not done:
                             state = grid[row][col]#current grid state 0 or 1
                             
                              
-                            # #ignore edges for the moment
+                            # #ignore edges for the moment --> Already fixed in version 0.8
                             # if row == 0 or row == row_num-1 or col == 0 or col == col_num-1:
                             #     next_grid[row][col] = state
                             #     continue
                             
-                            neighbors = grid.alive_neghibors(row,col)#current grid alive neighbors
-
+                            neighbors = grid.alive_neighbors(row,col)#current grid alive neighbors
+                            
                             
                             if state == 1 and (neighbors<2 or neighbors>3):
                                 next_grid[row][col] = 0
@@ -111,13 +114,14 @@ while not done:
                     draw_grid(row_num, col_num, next_grid)
                     grid = next_grid
                     x+=1
-                    # Limit to x frames per second
-                    clock.tick(10)
                     print('generation:',x)
+                    # Limit to x frames per second
+                    clock.tick(1)
+                
     
 
     # Go ahead and update the screen with what we've drawn.
-    pygame.display.update()
+    #pygame.display.update()
 
 # Be IDLE friendly. If you forget this line, the program will 'hang'
 # on exit.
