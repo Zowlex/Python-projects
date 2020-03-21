@@ -11,7 +11,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
 # This sets the WIDTH and HEIGHT of each grid location
-SQUARE = 15
+SQUARE = 20
 
 # This sets the margin between each cell
 MARGIN = 2
@@ -27,7 +27,7 @@ def create_window(w, h):
 pygame.init()
 
 #create window
-w = 500
+w = 700
 h = 500
 screen = create_window(w, h)
 
@@ -118,7 +118,7 @@ while not done:
                     x+=1
                     print('generation:',x)
                     # Limit to x frames per second
-                    clock.tick(1)
+                    clock.tick(x)
                 
     
 

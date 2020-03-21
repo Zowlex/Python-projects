@@ -58,7 +58,7 @@ class Grid(list):
                     if self[row][col] == 1:
                         res+=1
                         pass
-                except IndexError:
+                except IndexError:#If this error is raised for cells on the edges we consider the next edge cells are the neighbors, like we are wrapping a sheet of paper so the edges touch 
                     row = (x+row+self.w)%self.w
                     col = (y+col+self.h)%self.h
                         
