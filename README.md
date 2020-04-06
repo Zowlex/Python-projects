@@ -22,3 +22,4 @@ This repo represnts some (old,new and current) projects I worked on with python.
    - Updates:
       - blogpost: ![link to blogpost](http://fareslassoued.ml/2020/03/21/gameoflife.html)
       - added drawing functionality
+      - added numpy version of grid which is faster and less computationally expensive (06-04-2020)
