@@ -1,4 +1,5 @@
 import random
+import numpy as np
 
 class Grid(list):
     def __init__(self, w, h):
@@ -72,8 +73,21 @@ class Grid(list):
             self[row] = tuple(self[row])
         return self
 
+class npGrid(object):
+    
+    def __new__(self, w, h):
+        super()
+        self.obj = np.zeros((w,h),dtype=np.int)
+        return self.obj
 
+    
 
+        
+    
+    
+    
+
+    
 
 
 
