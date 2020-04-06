@@ -22,3 +22,10 @@ This repo represnts some (old,new and current) projects I worked on with python.
    - Updates:
       - blogpost: ![link to blogpost](http://fareslassoued.ml/2020/03/21/gameoflife.html)
       - added drawing functionality
+      - added numpy version of grid which is faster and less computationally expensive (06-04-2020)
+### 4. MNIST guai 
+   - This project is the extension of [this]() project from Hands-on ML book which consists of:
+      - Training an MNIST digit classifier with the accuracy of 97% (only using a knn classifier,not a neural networks)
+      - Exporting the model and using it for inference in a gui pygame app
+      - Draw the digit with your mouse the app predicts which digit you drew
+      
