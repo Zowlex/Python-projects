@@ -59,7 +59,16 @@ pen_size = 100  # This variable is not used
 mousedown = False   # we have not started drawing yet
 keep_going = True   # The program continues unti you close the window and type exit() in the shell
  
-# MAIN LOOPwhile keep_going != False:   # this can be done more pythonic
+ 
+print('*'*100)
+print('Welcome to MNIST guai ! ')
+print('Instructions: \n - Draw a digit with your mouse and press s so I can predict what you drew')
+print('- Press space to clean the screen')
+print('- Press d to delete the recorded screenshots in your scrrenshots folder')
+print('Enjoy!')
+print('*'*100)
+
+# MAIN LOOPwhile
 while keep_going:
      
     for event in pygame.event.get():
@@ -71,9 +80,9 @@ while keep_going:
             img_path = f"mnist_guai/screenshots/window{ID}.png"
             img = pygame.image.save(screen, img_path)
             read_img = io.imread(img_path, as_gray=True)
-            print(f'loaded {img_path}')
+            #print(f'loaded {img_path}')
             pred = prediction(MODEL, read_img)
-            print(pred)
+            print('Hmmmm I think it is a ',pred[0])
             
         if event.type == pygame.KEYDOWN and event.key == K_SPACE:
             screen.fill(BLACK)
