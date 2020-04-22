@@ -1,4 +1,4 @@
-<p align='center'><img src="screenshots/guai.png"></p>
+<p align='center'><img src="screenshots/five.png"></p>
 
 This project is the extension of [this](https://github.com/Zowlex/100DaysofMLCode/blob/master/End-to-end%20ML%20project/Classification.ipynb) project from Hands-on ML book which consists of:
       - Training an MNIST digit classifier with the accuracy of 97% (only using a knn classifier,not a neural networks)
